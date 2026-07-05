@@ -20,13 +20,13 @@ router.post(
   "/login",
   passport.authenticate("local", {
     successRedirect: "/users/profile",
-    failureRedirect: "/users",
+    failureRedirect: "/users/login",
   }),
   function (req, res) {},
 );
 
 router.get("/profile", isLoggedIn, function (req, res) {
-  res.send("profile");
+  res.render("profile");
 });
 
 router.get("/logout", function (req, res) {
@@ -40,6 +40,6 @@ router.get("/logout", function (req, res) {
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
-  res.redirect("/users");
+  res.redirect("/users/login");
 }
 module.exports = router;
