@@ -10,6 +10,10 @@ router.get("/", (req, res) => {
 router.get("/login", function (req, res, next) {
   res.render("login");
 });
+
+router.get("/feed", function (req, res) {
+  res.render("feed");
+});
 router.post("/register", userController.register);
 
 router.post(
