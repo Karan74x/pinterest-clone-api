@@ -1,8 +1,41 @@
 const express = require("express");
 const userController = require("../controllers/userController");
+const passport = require("passport");
 
 const router = express.Router();
 
-router.get("/createuser", userController.createUser);
+router.get("/", (req, res) => {
+  res.render("index");
+});
+router.get("/login", function (req, res, next) {
+  res.render("login");
+});
+router.post("/register", userController.register);
 
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/users/profile",
+    failureRedirect: "/users",
+  }),
+  function (req, res) {},
+);
+
+router.get("/profile", isLoggedIn, function (req, res) {
+  res.send("profile");
+});
+
+router.get("/logout", function (req, res) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect("/users");
+}
 module.exports = router;

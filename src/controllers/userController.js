@@ -1,18 +1,24 @@
-const userModel = require("../models/user.model");
+const passport = require("passport");
+const User = require("../models/user.model");
 
-async function createUser(req, res) {
-  let createdUser = await userModel.create({
-    username: "James",
+async function register(req, res) {
+  try {
+    const { username, fullname, email, password } = req.body;
 
-    fullName: "JamesBond007",
+    const user = new User({
+      username,
+      fullname,
+      email,
+    });
 
-    email: "Bond@74.com",
+    await User.register(user, password);
 
-    password: "007",
-    posts: [],
-  });
-
-  res.status(201).json(createdUser);
+    passport.authenticate("local")(req, res, function () {
+      res.redirect("/users/profile");
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
 }
 
-module.exports = { createUser };
+module.exports = { register };
