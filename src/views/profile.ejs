@@ -26,6 +26,15 @@
         <p class="tagline">Some Tag Line</p>
         <p class="description">Some Description</p>
         <a href="/users" class="button">Logout</a>
+        <form
+          action="/users/upload"
+          method="post"
+          enctype="multipart/form-data"
+        >
+          <input type="text" name="filecaption" placeholder="some caption" />
+          <input type="file" name="file" />
+          <input type="submit" />
+        </form>
       </div>
     </div>
     <div class="container">

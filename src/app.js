@@ -8,7 +8,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
 const User = require("./models/user.model");
-
 const userRoutes = require("./routes/user.routes");
 const postRoutes = require("./routes/post.routes");
 
