@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-
+const flash = require("connect-flash");
 const User = require("./models/user.model");
 
 const userRoutes = require("./routes/user.routes");
@@ -17,7 +17,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// ✅ Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(
@@ -34,6 +33,7 @@ app.use(passport.session());
 // View engine setup
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.use(flash());
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());

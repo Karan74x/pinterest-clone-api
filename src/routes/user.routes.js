@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
   res.render("index");
 });
 router.get("/login", function (req, res, next) {
-  res.render("login");
+  res.render("login", { error: req.flash("error") });
 });
 
 router.get("/feed", function (req, res) {
@@ -21,6 +21,7 @@ router.post(
   passport.authenticate("local", {
     successRedirect: "/users/profile",
     failureRedirect: "/users/login",
+    failureFlash: true,
   }),
   function (req, res) {},
 );
