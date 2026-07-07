@@ -1,6 +1,7 @@
 const express = require("express");
 const userController = require("../controllers/userController");
 const passport = require("passport");
+const userModel = require("../models/user.model");
 
 const router = express.Router();
 
@@ -26,8 +27,9 @@ router.post(
   function (req, res) {},
 );
 
-router.get("/profile", isLoggedIn, function (req, res) {
-  res.render("profile");
+router.get("/profile", isLoggedIn, async function (req, res) {
+  const user = await userModel.findOne({ username: req.session.passport.user });
+  res.render("profile", { user });
 });
 
 router.get("/logout", function (req, res) {
