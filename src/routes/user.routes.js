@@ -46,12 +46,14 @@ router.post(
     });
     user.posts.push(post._id);
     await user.save();
-    res.send("done");
+    res.redirect("/users/profile");
   },
 );
 
 router.get("/profile", isLoggedIn, async function (req, res) {
-  const user = await userModel.findOne({ username: req.session.passport.user });
+  const user = await userModel
+    .findOne({ username: req.session.passport.user })
+    .populate("posts");
   res.render("profile", { user });
 });
 
