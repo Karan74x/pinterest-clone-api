@@ -13,9 +13,12 @@ router.get("/login", function (req, res, next) {
   res.render("login", { error: req.flash("error") });
 });
 
-router.get("/feed", function (req, res) {
-  res.render("feed");
+router.get("/feed", isLoggedIn, async function (req, res) {
+  const posts = await postModel.find().populate("user").sort({ createdAt: -1 }); //posts in descending order because of createdAt:-1
+
+  res.render("feed", { posts });
 });
+
 router.post("/register", userController.register);
 
 router.post(
